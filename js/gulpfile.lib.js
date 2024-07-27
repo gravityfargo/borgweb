@@ -1,7 +1,7 @@
 var babelify = require('babelify')
 var browserify = require('browserify')
 var fs = require('fs')
-var log = require('gulp-util').log
+var log = require('fancy-log').log
 
 var ex = {}
 

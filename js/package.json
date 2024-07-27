@@ -30,8 +30,8 @@
     "browser-sync": "^2.24.5",
     "browserify": "^16.2.2",
     "dateformat": "^1.0.11",
+    "fancy-log": "^2.0.0",
     "gulp": "^4.0.0",
-    "gulp-util": "^3.0.5",
     "minifyify": "^7.0.1",
     "prependify": "^1.1.4"
   },

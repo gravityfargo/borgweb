@@ -1,5 +1,5 @@
 var gulp = require('gulp')
-var log = require('gulp-util').log
+var log = require('fancy-log').log
 var lib = require('./gulpfile.lib.js')
 var browserSync = require('browser-sync').create()
 
