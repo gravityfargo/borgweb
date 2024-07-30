@@ -1,0 +1,84 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "borgweb"
+authors = [
+    { name = "The Borg Collective", email = "borgbackup@python.org" },
+]
+description = "Browser-based user interface for BorgBackup"
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: POSIX :: BSD :: FreeBSD",
+    "Operating System :: POSIX :: BSD :: OpenBSD",
+    "Operating System :: POSIX :: BSD :: NetBSD",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.4",
+    "Programming Language :: Python :: 3.5",
+    "Programming Language :: Python :: 3.6",
+    "Topic :: System :: Archiving :: Backup",
+]
+dynamic = ["version"]
+dependencies = ["setuptools_scm>=1.7", "Flask"]
+
+[project.optional-dependencies]
+DEV = ["flake8"]
+
+[project.scripts]
+borgweb = "borgweb.app:main"
+
+[project.urls]
+documentation = "https://borgweb.readthedocs.io/"
+repository = "https://github.com/borgbackup"
+
+[tool.setuptools]
+include-package-data = true
+# This is already the default behaviour if you are using
+# pyproject.toml to configure your build.
+
+[tool.setuptools.packages.find]
+where = ["borgweb"]
+
+[tool.setuptools.package-data]
+borgweb = [
+    'static/*.*',
+    'static/bootstrap/*',
+    'static/fonts/*',
+    'static/i18n/*',
+    'templates/*',
+]
+
+[tool.setuptools_scm]
+version_file = "borgweb/_version.py"
+
+[tool.flake8]
+ignore = [
+    'E123',
+    'E126',
+    'E127',
+    'E129',
+    'E203',
+    'E221',
+    'E226',
+    'E231',
+    'E241',
+    'E265',
+    'E301',
+    'E302',
+    'E303',
+    'E713',
+    'F401',
+    'F403',
+    'W291',
+    'W293',
+    'W391',
+]
+max-line-length = 88
