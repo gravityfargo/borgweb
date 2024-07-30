@@ -16,16 +16,18 @@ from borgweb.db import get_db
 
 from . import blueprint
 
+
 @blueprint.before_app_request
 def load_logged_in_user():
-    user_id = session.get('user_id')
+    user_id = session.get("user_id")
 
     if user_id is None:
         g.user = None
     else:
-        g.user = get_db().execute(
-            'SELECT * FROM user WHERE id = ?', (user_id,)
-        ).fetchone()
+        g.user = (
+            get_db().execute("SELECT * FROM user WHERE id = ?", (user_id,)).fetchone()
+        )
+
 
 @blueprint.route("/login", methods=("GET", "POST"))
 def login():
@@ -52,20 +54,22 @@ def login():
 
     return render_template("auth/login.html")
 
+
 def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None:
-            return redirect(url_for('auth.login'))
+            return redirect(url_for("auth.login"))
 
         return view(**kwargs)
 
     return wrapped_view
 
-@blueprint.route('/logout')
+
+@blueprint.route("/logout")
 def logout():
     session.clear()
-    return redirect(url_for('index'))
+    return redirect(url_for("index"))
 
 
 @blueprint.route("/register", methods=("GET", "POST"))

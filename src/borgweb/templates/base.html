@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon" />
+        <meta name="description" content="`borgweb` is a web frontend for the `borgbackup` software.">
+        <meta name="author" content="https://github.com/borgbackup/borgweb/blob/master/AUTHORS">
+        <title>
+            {% block title %}{% endblock %}
+        </title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+              crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+
+    <body>
+        <div class="container-fluid">
+            <div class="row flex-nowrap">
+                <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark text-light">
+                    <div class="d-flex flex-column pt-2 pb-2 min-vh-100">
+                        <h1 id="logo" class="ms-1 d-none d-sm-inline">BorgWeb</h1>
+                        <span class="ms-1 d-none d-sm-inline">Web UI for BorgBackup</span>
+                        <span class="ms-1 fst-italic d-none d-sm-inline">Latest</span>
+                        <hr>
+                        <ul id="links" class="nav flex-column fs-5">
+                            <li class="nav-item">
+                                <a class="nav-link link-light" href="#">
+                                    <i class="bi bi-speedometer2"></i><span
+                                          class="ms-1 d-none d-sm-inline">Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link link-light" href="#">
+                                    <i class="bi bi-database"></i><span
+                                          class="ms-1 d-none d-sm-inline">Repositories</span>
+
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link link-light" href="#">
+                                    <i class="bi bi-file-text"></i><span class="ms-1 d-none d-sm-inline">Logs</span>
+
+                                </a>
+                            </li>
+                        </ul>
+                        <hr>
+                        <ul id="support" class="nav flex-column fs-5">
+                            <li class="nav-item">
+                                <a class="nav-link link-light" href="#">
+                                    <i class="bi bi-book-half"></i><span
+                                          class="ms-1 d-none d-sm-inline">Documentation</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link link-light" href="#">
+                                    <i class="bi bi-github"></i><span class="ms-1 d-none d-sm-inline">Github</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <hr>
+                        <ul id="user" class="nav flex-column mt-auto fs-5">
+                            <li class="nav-item">
+                                <a class="nav-link link-light" href="#">
+                                    <i class="bi bi-gear-wide-connected"></i><span
+                                          class="ms-1 d-none d-sm-inline">Settings</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link link-light" href="#">
+                                    <i class="bi bi-door-open"></i><span class="ms-1 d-none d-sm-inline">Sign out</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col py-3">
+                    <h3>Heading</h3>
+                    <p>Content</p>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+                crossorigin="anonymous"></script>
+    </body>
+
+</html>
