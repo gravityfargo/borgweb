@@ -1,5 +1,5 @@
+from flask import current_app as app
 import functools
-
 from flask import (
     Blueprint,
     flash,
@@ -10,14 +10,15 @@ from flask import (
     session,
     url_for,
 )
-from werkzeug.security import check_password_hash, generate_password_hash
-
+from werkzeug.security import check_password_hash
 from borgweb.db import get_db
 
-from . import blueprint
+auth_bp = Blueprint(
+    "auth_bp", __name__, template_folder="templates", static_folder="static"
+)
 
 
-@blueprint.before_app_request
+@auth_bp.before_app_request
 def load_logged_in_user():
     user_id = session.get("user_id")
 
@@ -29,7 +30,7 @@ def load_logged_in_user():
         )
 
 
-@blueprint.route("/login", methods=("GET", "POST"))
+@auth_bp.route("/login", methods=("GET", "POST"))
 def login():
     if request.method == "POST":
         username = request.form["username"]
@@ -48,11 +49,11 @@ def login():
         if error is None:
             session.clear()
             session["user_id"] = user["id"]
-            return redirect(url_for("index"))
+            return redirect(url_for("borgweb.index"))
 
         flash(error)
 
-    return render_template("auth/login.html")
+    return render_template("login.html")
 
 
 def login_required(view):
@@ -66,37 +67,7 @@ def login_required(view):
     return wrapped_view
 
 
-@blueprint.route("/logout")
+@auth_bp.route("/logout")
 def logout():
     session.clear()
-    return redirect(url_for("index"))
-
-
-@blueprint.route("/register", methods=("GET", "POST"))
-def register():
-    if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-        db = get_db()
-        error = None
-
-        if not username:
-            error = "Username is required."
-        elif not password:
-            error = "Password is required."
-
-        if error is None:
-            try:
-                db.execute(
-                    "INSERT INTO user (username, password) VALUES (?, ?)",
-                    (username, generate_password_hash(password)),
-                )
-                db.commit()
-            except db.IntegrityError:
-                error = f"User {username} is already registered."
-            else:
-                return redirect(url_for("auth.login"))
-
-        flash(error)
-
-    return render_template("auth/register.html")
+    return redirect(url_for("borgweb.index"))
