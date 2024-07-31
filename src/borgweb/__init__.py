@@ -1,5 +1,5 @@
 from ._version import version
-import os, yaml
+import os
 from flask import Flask
 from . import db
 

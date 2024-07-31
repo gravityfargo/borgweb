@@ -13,9 +13,7 @@ from flask import (
 from werkzeug.security import check_password_hash
 from borgweb.db import get_db
 
-auth_bp = Blueprint(
-    "auth_bp", __name__, template_folder="templates", static_folder="static"
-)
+auth_bp = Blueprint("auth_bp", __name__)
 
 
 @auth_bp.before_app_request
