@@ -7,6 +7,7 @@
         <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon" />
         <meta name="description" content="`borgweb` is a web frontend for the `borgbackup` software.">
         <meta name="author" content="https://github.com/borgbackup/borgweb/blob/master/AUTHORS">
+        <meta name="keywords" content="borgweb, web frontend, borgbackup">
         <title>
             BorgWeb - {% block title %}{% endblock title %}
         </title>
@@ -26,18 +27,18 @@
                         {% if g.user %}
                         <ul id="links" class="nav flex-column fs-5">
                             <li class="nav-item">
-                                <a class="nav-link link-light" href="{{ url_for('dashboard.dashboard') }}">
+                                <a class="nav-link link-light" href="{{ url_for('dashboard.index') }}">
                                     <i class="bi bi-speedometer2"></i><span class="ms-1 d-none d-sm-inline">Dashboard</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link link-light" href="{{ url_for('repos.repositories') }}">
+                                <a class="nav-link link-light" href="{{ url_for('repos.index') }}">
                                     <i class="bi bi-database"></i><span class="ms-1 d-none d-sm-inline">Repositories</span>
 
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link link-light" href="{{ url_for('logs.logs') }}">
+                                <a class="nav-link link-light" href="{{ url_for('logs.index') }}">
                                     <i class="bi bi-file-text"></i><span class="ms-1 d-none d-sm-inline">Logs</span>
 
                                 </a>
@@ -68,20 +69,20 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link link-light" href="{{ url_for('settings.settings') }}">
+                                <a class="nav-link link-light" href="{{ url_for('settings.index') }}">
                                     <i class="bi bi-gear-wide-connected"></i>
                                     <span class="ms-1 d-none d-sm-inline">Settings</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link link-light" href="{{ url_for('auth_bp.logout') }}">
+                                <a class="nav-link link-light" href="{{ url_for('auth.logout') }}">
                                     <i class="bi bi-door-open"></i>
                                     <span class="ms-1 d-none d-sm-inline">Sign out</span>
                                 </a>
                             </li>
                             {% else %}
                             <li class="nav-item">
-                                <a class="nav-link link-light" href="{{ url_for('auth_bp.login') }}">Log In</a>
+                                <a class="nav-link link-light" href="{{ url_for('auth.login') }}">Log In</a>
                             </li>
                             {% endif %}
                         </ul>

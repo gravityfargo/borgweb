@@ -1,11 +1,19 @@
+""" __init__.py """
+
 from ._version import version
 import os
 from flask import Flask
 from . import db
+from .plugins import WebPlugin
 
 
 def create_app():
     app = Flask(__name__, instance_relative_config=False)
+
+    for plugin in WebPlugin.plugins:
+        plugin()
+        app.register_blueprint(plugin.blueprint)
+
     # app.config.from_object('config.Config')
     app.config.from_mapping(
         SECRET_KEY="dev",
@@ -18,19 +26,4 @@ def create_app():
     def utility_processor():
         return dict(version=version)
 
-    with app.app_context():
-        from .dashboard import routes as dashboard
-        from .auth import routes as auth
-        from .logs import routes as logs
-        from .api import routes as api
-        from .settings import routes as settings
-        from .repositories import routes as repositories
-
-        app.register_blueprint(dashboard.dashboard_bp)
-        app.register_blueprint(auth.auth_bp)
-        app.register_blueprint(logs.logs_bp)
-        app.register_blueprint(api.api_bp)
-        app.register_blueprint(settings.settings_bp)
-        app.register_blueprint(repositories.repos_bp)
-
-        return app
+    return app
