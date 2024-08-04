@@ -1,21 +1,15 @@
 """ plugins/settings/settings.py """
 
-from borgweb.plugins import WebPlugin
-from flask import Blueprint, render_template
-from flask import current_app as app
-import os
+from borgweb.plugins import Plugin
+from flask import render_template
 
+class Settings(Plugin):
+    backend_only = False
+    plugin_name = "settings"
+    bootstrap_icon = "bi-gear"
+    nav_display_name = "Settings"
 
-class Settings(WebPlugin):
-    blueprint = Blueprint(
-        "settings",
-        __name__,
-        template_folder=os.path.join(os.path.dirname(__file__), "templates"),
-        static_folder=os.path.join(os.path.dirname(__file__), "static"),
-        url_prefix="/settings",
-    )
-
-    @staticmethod
-    @blueprint.route("/")
-    def index():
-        return render_template("settings/index.html")
+    def setup_routes(self):
+        @self.blueprint.route("/")
+        def index():
+            return render_template("settings/index.html")

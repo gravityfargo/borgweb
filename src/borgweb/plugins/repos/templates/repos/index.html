@@ -2,7 +2,33 @@
 {% block title %}Repos{% endblock title %}
 {% block heading %}Repositories{% endblock heading %}
 {% block content %}
+<script src="/repos/static/repos.js"></script>
+<script>
+    $(document).ready(function () {
+        openTab('#{{ tab }}')
+    });
+</script>
 <div class="p-2">
-    Content
+    <ul class="nav nav-tabs" id="RepoTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="list-tab" data-bs-toggle="tab" data-bs-target="#list-tab-pane" type="button" role="tab" aria-controls="list-tab-pane" aria-selected="true">Repo List</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="new-tab" data-bs-toggle="tab" data-bs-target="#new-tab-pane" type="button" role="tab" aria-controls="new-tab-pane" aria-selected="false">New Repo</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Contact</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="RepoTabsContent">
+        <div class="tab-pane fade show active" id="list-tab-pane" role="tabpanel" aria-labelledby="list-tab" tabindex="0">
+            {% include 'repos/repo_list.html' %}
+        </div>
+        <div class="tab-pane fade" id="new-tab-pane" role="tabpanel" aria-labelledby="new-tab" tabindex="0">
+            {% include 'repos/new_repo.html' %}
+        </div>
+        <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">...</div>
+        <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">...</div>
+    </div>
 </div>
 {% endblock content %}

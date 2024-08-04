@@ -1,20 +1,13 @@
-""" plugins/dashboard/dashboard.py """
+from borgweb.plugins import Plugin
+from flask import render_template
 
-from borgweb.plugins import WebPlugin
-from flask import Blueprint, render_template
-from flask import current_app as app
-import os
+class Dashboard(Plugin):
+    backend_only = False
+    plugin_name = "dashboard"
+    bootstrap_icon = "bi-speedometer2"
+    nav_display_name = "Dashboard"
 
-
-class Dashboard(WebPlugin):
-    blueprint = Blueprint(
-        "dashboard",
-        __name__,
-        template_folder=os.path.join(os.path.dirname(__file__), "templates"),
-        static_folder=os.path.join(os.path.dirname(__file__), "static"),
-    )
-
-    @staticmethod
-    @blueprint.route("/")
-    def index():
-        return render_template("dashboard/index.html")
+    def setup_routes(self):
+        @self.blueprint.route("/")
+        def index():
+            return render_template("dashboard/index.html")

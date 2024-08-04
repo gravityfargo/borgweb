@@ -1,21 +1,17 @@
 """ plugins/logs/logs.py """
 
-from borgweb.plugins import WebPlugin
-from flask import Blueprint, render_template
-from flask import current_app as app
-import os
+from borgweb.plugins import Plugin
+from flask import render_template
 
 
-class Logs(WebPlugin):
-    blueprint = Blueprint(
-        "logs",
-        __name__,
-        template_folder=os.path.join(os.path.dirname(__file__), "templates"),
-        static_folder=os.path.join(os.path.dirname(__file__), "static"),
-        url_prefix="/logs",
-    )
+class Logs(Plugin):
+    backend_only = False
+    plugin_name = "logs"
+    bootstrap_icon = "bi-journal"  # bi-file-text
+    nav_display_name = "Logs"
+    
 
-    @staticmethod
-    @blueprint.route("/")
-    def index():
-        return render_template("logs/index.html")
+    def setup_routes(self):
+        @self.blueprint.route("/")
+        def index():
+            return render_template("logs/index.html")

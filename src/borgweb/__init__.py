@@ -1,29 +1,51 @@
-""" __init__.py """
-
-from ._version import version
-import os
+from borgweb._version import version
 from flask import Flask
-from . import db
-from .plugins import WebPlugin
+from borgweb.plugins import PluginManager
+from borgweb.database import db, Database
+from borgweb.database.models import User
+from borgweb.settings import get_secret_config
+from flask_login import LoginManager
+
+
+def register_commands(app):
+    app.cli.add_command(Database.create_user)
 
 
 def create_app():
-    app = Flask(__name__, instance_relative_config=False)
+    config = get_secret_config()
+    app = Flask(__name__)
+    app.config.from_mapping(config)
 
-    for plugin in WebPlugin.plugins:
-        plugin()
-        app.register_blueprint(plugin.blueprint)
-
-    # app.config.from_object('config.Config')
-    app.config.from_mapping(
-        SECRET_KEY="dev",
-        DATABASE=os.path.join(app.instance_path, "borgweb.sqlite"),
-    )
+    register_commands(app)
+    plugin_manager = PluginManager()
+    plugin_manager.load_plugins(config["PLUGINS_DIR"])
 
     db.init_app(app)
+    login_manager = LoginManager()
+    login_manager.login_view = "auth.login"
+    login_manager.init_app(app)
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(int(user_id))
 
     @app.context_processor
     def utility_processor():
         return dict(version=version)
 
-    return app
+    with app.app_context():
+        # must setup plugins before setting up the database because plugins may
+        # have models
+        plugin_manager.register_blueprints(config["ENABLED_PLUGINS"])
+        plugin_manager.update_nav(config["NAV_PATH"])
+        db.create_all()
+        return app
+
+
+def main():
+    app = create_app()
+    app.run(host=app.config["HOST"], port=app.config["PORT"], debug=app.config["DEBUG"])
+
+
+if __name__ == "__main__":
+    main()
