@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Repos{% endblock title %}
+{% block heading %}Repositories{% endblock heading %}
+{% block content %}
+<script src="/repos/static/repos.js"></script>
+
+<div class="p-2">
+
+    <ul class="nav nav-pills" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link" id="repos" aria-current="page" href="{{ url_for('repos.index') }}">Repositories</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="create" aria-current="page" href="{{ url_for('repos.repo_form', form_type='create') }}">Create a Repo</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="import" aria-current="page" href="{{ url_for('repos.repo_form', form_type='import') }}">Import a Repo</a>
+        </li>
+    </ul>
+</div>
+<hr>
+<div class="p-2">
+    <div class="col-7 ms-auto me-auto">
+        {% block repo_content %}
+        {% endblock repo_content %}
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,33 @@
+{% extends 'repos/repo_index.html' %}
+{% block repo_content %}
+<script>
+    set_active_tab('create');
+</script>
+<form class="row g-4" method="post" action="{{ url_for('repos.create_repo') }}">
+    <div class="row p-0">
+        <div class="col">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="col">
+            <label for="location">Location</label>
+            <input type="text" class="form-control" id="location" name="location" required>
+        </div>
+    </div>
+    <div class="row">
+        <label for="encrypt">Encryption</label>
+        <select id="encrypt" class="form-select" name="location">
+            <option selected>none</option>
+            <option value="none">none</option>
+            <option value="repokey-blake2">repokey-blake2</option>
+            <option value="keyfile">keyfile</option>
+        </select>
+    </div>
+    <div class="row">
+        <label for="description">Description</label>
+        <textarea class="form-control" id="description" name="description"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+
+{% endblock repo_content %}

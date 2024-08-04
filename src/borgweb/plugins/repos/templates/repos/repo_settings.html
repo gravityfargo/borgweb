@@ -1,0 +1,31 @@
+{% extends 'repos/repo_index.html' %}
+{% block repo_content %}
+<script>
+    set_active_tab('repos');
+</script>
+<div class="vstack">
+    <div class="row">
+        <div class="col">
+            <i class="bi bi-arrow-left-circle"></i>
+            <a href="{{ url_for('repos.index') }}">Back to Repos</a>
+        </div>
+        <div class="col text-center">
+            Repo Settings
+        </div>
+        <div class="col text-end">
+            <h3>{{ repo_name }}</h3>
+        </div>
+    </div>
+    <div class="">
+        {% for key, value in config.items() %}
+        <div class="mb-3 row">
+            <label for="{{ key }}" class="col-sm-3 col-form-label">{{ key }}</label>
+            <div class="col-sm-9">
+                <input id="{{ key }}" class="form-control" type="text" value="{{ value }}" aria-label="" readonly>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock repo_content %}
