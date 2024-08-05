@@ -4,13 +4,13 @@ from flask_migrate import Migrate
 from borgweb.plugins import PluginManager
 from borgweb.database import db, Database
 from borgweb.database.models import User
-from borgweb.settings import get_secret_config, test
+from borgweb.settings import get_secret_config
 from flask_login import LoginManager
 
 
 def register_commands(app):
     app.cli.add_command(Database.create_user)
-    app.cli.add_command(test)
+
 
 def create_app():
     config = get_secret_config()
