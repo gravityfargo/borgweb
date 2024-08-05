@@ -1,15 +1,16 @@
 from borgweb._version import version
 from flask import Flask
+from flask_migrate import Migrate
 from borgweb.plugins import PluginManager
 from borgweb.database import db, Database
 from borgweb.database.models import User
-from borgweb.settings import get_secret_config
+from borgweb.settings import get_secret_config, test
 from flask_login import LoginManager
 
 
 def register_commands(app):
     app.cli.add_command(Database.create_user)
-
+    app.cli.add_command(test)
 
 def create_app():
     config = get_secret_config()
@@ -21,6 +22,8 @@ def create_app():
     plugin_manager.load_plugins(config["PLUGINS_DIR"])
 
     db.init_app(app)
+    migrate = Migrate(app, db)
+    
     login_manager = LoginManager()
     login_manager.login_view = "auth.login"
     login_manager.init_app(app)
