@@ -1,14 +1,12 @@
-[build-system]
-requires = ["setuptools", "setuptools-scm"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "borgweb"
-authors = [
-    { name = "The Borg Collective", email = "borgbackup@python.org" },
-]
+dynamic = ["version", "readme"]
+authors = [{ name = "The Borg Collective (see AUTHORS file)" }]
+maintainers = [{ name = "gravityfargo", email = "gravityfargo@gmail.com" }]
 description = "Browser-based user interface for BorgBackup"
-requires-python = ">=3.8"
+license = { text = "BSD" }
+requires-python = ">=3.9"
+keywords = ["backup", "borgbackup"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Environment :: Console",
@@ -21,64 +19,143 @@ classifiers = [
     "Operating System :: POSIX :: Linux",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.4",
-    "Programming Language :: Python :: 3.5",
-    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security :: Cryptography",
     "Topic :: System :: Archiving :: Backup",
 ]
-dynamic = ["version"]
-dependencies = ["setuptools_scm>=1.7", "Flask"]
+dependencies = [
+    "flask",
+    "python-dotenv",
+    "flask-sqlalchemy",
+    "flask-login",
+    "borgbackup",
+    "pyyaml",
+]
 
 [project.optional-dependencies]
-DEV = ["flake8"]
-
-[project.scripts]
-borgweb = "borgweb.app:main"
+DEV = ["djlint", "tox", "pytest"]
 
 [project.urls]
-documentation = "https://borgweb.readthedocs.io/"
-repository = "https://github.com/borgbackup"
+"Homepage" = "https://borgbackup.org/"
+"Bug Tracker" = "https://github.com/borgbackup/borgweb/issues"
+"Documentation" = "https://borgweb.readthedocs.io/en/latest/"
+"Repository" = "https://github.com/borgbackup/borgweb"
+"Changelog" = "https://github.com/borgbackup/borgweb/blob/master/CHANGES"
+
+[project.scripts]
+borgweb = "borgweb.app:create_app"
 
 [tool.setuptools]
 include-package-data = true
-# This is already the default behaviour if you are using
-# pyproject.toml to configure your build.
 
 [tool.setuptools.packages.find]
-where = ["borgweb"]
+where = ["src"]
 
-[tool.setuptools.package-data]
-borgweb = [
-    'static/*.*',
-    'static/bootstrap/*',
-    'static/fonts/*',
-    'static/i18n/*',
-    'templates/*',
+[tool.setuptools.exclude-package-data]
+# ...except the source files which have been compiled (C extensions):
+"*" = ["*.c", "*.h", "*.pyx"]
+
+[build-system]
+requires = [
+    "setuptools>=64",
+    "setuptools_scm>=8",
+    "wheel",
+    "pkgconfig",
+    "Cython>=3.0.3",
 ]
+build-backend = "setuptools.build_meta"
 
 [tool.setuptools_scm]
-version_file = "borgweb/_version.py"
+version_file = "src/borgweb/_version.py"
+write_to_template = "__version__ = version = {version!r}\n"
 
-[tool.flake8]
-ignore = [
-    'E123',
-    'E126',
-    'E127',
-    'E129',
-    'E203',
-    'E221',
-    'E226',
-    'E231',
-    'E241',
-    'E265',
-    'E301',
-    'E302',
-    'E303',
-    'E713',
-    'F401',
-    'F403',
-    'W291',
-    'W293',
-    'W391',
+[tool.ruff]
+line-length = 120
+target-version = "py39"
+
+# Enable pycodestyle (`E`) and Pyflakes (`F`) codes by default.
+select = ["E", "F"]
+
+# for reference ...
+#   E402 module level import not at top
+#   E501 line too long
+#   F401 import unused
+#   F405 undefined or defined from star imports
+#   F811 redef of unused var
+
+# borg code style guidelines:
+# Ignoring E203 due to https://github.com/PyCQA/pycodestyle/issues/373
+ignore = ["E203", "F405", "E402"]
+
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+fixable = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "I",
+    "N",
+    "Q",
+    "S",
+    "T",
+    "W",
+    "ANN",
+    "ARG",
+    "BLE",
+    "COM",
+    "DJ",
+    "DTZ",
+    "EM",
+    "ERA",
+    "EXE",
+    "FBT",
+    "ICN",
+    "INP",
+    "ISC",
+    "NPY",
+    "PD",
+    "PGH",
+    "PIE",
+    "PL",
+    "PT",
+    "PTH",
+    "PYI",
+    "RET",
+    "RSE",
+    "RUF",
+    "SIM",
+    "SLF",
+    "TCH",
+    "TID",
+    "TRY",
+    "UP",
+    "YTT",
 ]
-max-line-length = 88
+unfixable = []
+
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".cache",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".idea",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".tox",
+    "build",
+    "dist",
+]
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.pytest.ini_options]
+python_files = "testsuite/*.py"
+markers = ["allow_cache_wipe"]
