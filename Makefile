@@ -9,3 +9,6 @@ clean:
 
 run:
 	flask --app borgweb run
+
+test:
+	pytest 
