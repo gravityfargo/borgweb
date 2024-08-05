@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Backup{% endblock title %}
+{% block heading %}Backup{% endblock heading %}
+{% block content %}
+<div class="p-2">
+
+    <ul class="nav nav-pills" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link" id="info" aria-current="page" href="">{{ repo }}</a>
+        </li>
+        {% for repo in repo_list %}
+        <li class="nav-item">
+            <a class="nav-link" id="{{ repo }}" aria-current="page" href="">{{ repo }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+<hr>
+<div class="p-2">
+    <div class="col-7 ms-auto me-auto">
+        {% block backup_content %}
+        {% endblock backup_content %}
+    </div>
+</div>
+{% endblock content %}
